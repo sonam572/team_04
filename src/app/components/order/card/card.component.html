@@ -51,7 +51,7 @@
         </div>
         <div class="form-group col-lg-6">
           <label class="padding-zero" for="expirationdate">Expiration (mm/yy)</label>
-          <input id="expirationdate" 
+          <input  id="expirationdate" 
             class="form-control" 
             type="text" 
             placeholder="MM/YY"
@@ -63,7 +63,7 @@
         </div>
         <div class="form-group col-lg-6">
           <label class="padding-zero" for="CVV">CVV</label>
-          <input id="CVV" 
+          <input  id="CVV" 
             class="form-control" 
             type="text" 
             placeholder="CVV"
@@ -71,6 +71,7 @@
             (focus)="flipCard()"
             (focusout)="flipCard()" 
             [textMask]="{mask:cvvMask, guide:false}">
+
             <span class="error-msg" *ngIf="!getFormValues('CVV').valid && getFormValues('CVV').touched && getFormValues('CVV').errors">
               Please, Enter the valid CVV.
             </span>

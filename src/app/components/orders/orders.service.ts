@@ -1,13 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Orders } from './orders.model';
+import {CartItem1} from 'd:/foodsapp/food-app-3/src/app/components/orders/orders.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
 
+  items: CartItem1[] = [];
   constructor() { }
+  increaseQtd1(item: CartItem1) {
+    item.quantity = item.quantity + 1;
+}
+decreaseQtd1(item: CartItem1) {
+  item.quantity = item.quantity - 1;
+  if (item.quantity === 0) {
+      this.removeItem1(item);
+  }
+}
 
+clear() {
+  this.items = [];
+  
+}
+total(): number {
+  return this.items
+      .map(item => item.value())
+      .reduce((prev, value) => prev + value, 0);
+}
   Orders =  [
     {
       name: "Casa da pepa",
@@ -255,5 +276,8 @@ export class OrdersService {
       id: 13
     }
   ];
-
+  removeItem1(item: CartItem1) {
+    this.items.splice(this.items.indexOf(item), 1);
+    
+  }
 }

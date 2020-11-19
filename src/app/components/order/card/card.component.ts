@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Card } from './card.model';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe'
+import { Order } from 'd:/foodsapp/food-app-3/src/app/components/order/order.model'
 
 @Component({
   selector: 'lacc-card',

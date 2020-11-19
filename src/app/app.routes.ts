@@ -38,6 +38,7 @@ export const ROUTES: Routes = [
         path:'orders',component:OrdersComponent,
         canLoad: [LoggedInGuard],
         canActivate: [LoggedInGuard]
+        
     },
     {path: 'order-summary', loadChildren: './components/order/order-summary/order-summary.module#OrderSummaryModule'},
     {path: '**', component: NotFoundComponent}

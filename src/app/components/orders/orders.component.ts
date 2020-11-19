@@ -16,5 +16,12 @@ export class OrdersComponent implements OnInit {
   ngOnInit() {
     this.orders = this.ordersService.Orders;
   }
+  removeItem(item: any) {
+    this.ordersService.removeItem1(item);
+}
+
+total() {
+    return this.ordersService.total();
+}
 
 }

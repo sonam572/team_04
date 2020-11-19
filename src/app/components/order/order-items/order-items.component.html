@@ -16,10 +16,10 @@
 
         <td>{{ item.menuItem.name }}</td>
         <!-- <td>{{ item.menuItem.description }}</td> -->
-        <td> {{ item.value() | currency: 'BRL' :'symbol' }}</td>
+        <td> {{  item.value() | currency: 'BRL' :'symbol' }}</td>
         <td>
             <a (click)="emitDecreaseQtd(item)" class="btn btn-sm"> <i class="fa fa-minus"></i> </a>
-            {{ item.quantity }}
+            {{ item.quantity}}
             <a (click)="emitIncreaseQtd(item)" class="btn btn-sm"> <i class="fa fa-plus"></i> </a>
         </td>
         <!-- <td>

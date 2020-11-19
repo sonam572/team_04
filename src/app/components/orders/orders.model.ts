@@ -1,6 +1,7 @@
 import { OrderItem } from "../order/order.model";
 
-export class Orders{
+
+export interface Orders{
     name: string;
     address: string;
     number: string;
@@ -10,4 +11,13 @@ export class Orders{
     paymentOptions: string;
     orderItems: OrderItem[];
     id: number;
+
 }
+export class CartItem1{
+    constructor(public menuItem: Orders, public quantity: number = 1) {
+
+    }
+
+    value(): number {
+        return 126;
+    }}

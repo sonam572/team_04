@@ -2,7 +2,12 @@
     <div class="grid_12">
         <h3 class="head2">Choose Restaurant</h3>
     </div>
-
+<div class="grid_12">
+    <h3 class="head2">Enter Location</h3>
+    <input type="text" #item style="margin-left: 350px;">
+    <button class="btn btn-primary" (click)="getVal(item)" style="margin-left: 10px;">Search</button>
+    <hr>
+</div>
     <div class="div-tabs gallery1">
         <div class="grid_3" *ngFor="let restaurant of restaurants">
             <lacc-restaurant [restaurant]="restaurant"></lacc-restaurant>

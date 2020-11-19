@@ -31,7 +31,7 @@ import {ApplicationErrorHandler} from './app.error-handler';
 import { LoginComponent } from './components/security/login/login.component';
 import { UserDetailComponent } from './components/header/user-detail/user-detail.component';
 import { FormsModule } from '@angular/forms';
-import { OrdersComponent } from './components/orders/orders.component';
+import { OrdersComponent} from './components/orders/orders.component';
 
 
 @NgModule({

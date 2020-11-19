@@ -68,7 +68,7 @@
                                         [disabled]="!orderForm.valid"
                                         (click)="showDeliverySummary()"
                                         class="btn btn-default pull-right">
-                                        Procced
+                                        Proceed
                                     </button>
                                 </div>
                             </div>
@@ -82,18 +82,18 @@
                             <div class="panel-heading">
                                 <h3>Choose Payment method</h3>
                             </div>
-                            <div class="panel-body"> <!-- *ngIf="isDeliverySummary" -->
+                            <div *ngIf="isDeliverySummary" class="panel-body"> 
                                 <div class="col-lg-12 padding-left-right-zero">
                                     <div class="col-lg-4 vertical-tabs radio-tabs margin-zero">
                                         <input type="radio" id="card" formControlName="paymentOption" value="card" checked>
                                         <label for="card">
-                                            <span><i class="fa fa-credit-card"></i></span>
+                                            <span ><i class="fa fa-credit-card"></i></span>
                                             Credit/Debit cards
                                         </label>
                                     
                                         <input type="radio" id="UPI" formControlName="paymentOption" value="UPI">
                                         <label for="UPI">
-                                            <span><i class="fa fa-briefcase"></i></span> 
+                                            <span ><i class="fa fa-briefcase"></i></span> 
                                             UPI
                                         </label>
                                     
@@ -103,10 +103,10 @@
                                             Wallets
                                         </label>
                                         
-                                        <input type="radio" id="netbancking" formControlName="paymentOption" value="netbancking">
+                                        <input  type="radio" id="netbancking" formControlName="paymentOption" value="netbancking">
                                         <label for="netbancking">
                                             <span><i class="fa fa-university"></i></span> 
-                                            Netbancking
+                                            Netbanking
                                         </label> 
                                   
                                         <input type="radio" id="cash" formControlName="paymentOption" value="cash">
@@ -115,7 +115,7 @@
                                             Cash
                                         </label>
 
-                                        <input type="radio" id="food-card" formControlName="paymentOption" value="foodcard">
+                                        <input  type="radio" id="food-card" formControlName="paymentOption" value="foodcard">
                                         <label for="food-card">
                                             <span><i class="fa fa-credit-card"></i></span> 
                                             Food card
