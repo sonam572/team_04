@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Restaurant } from './../restaurants/restaurant/restaurant.model';
-import { RestaurantsService } from './../restaurants/restaurants-json.service';
+import { RestaurantsService } from './../restaurants/restaurants.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
-
+import { HttpClient } from '@angular/common/http';
+import { Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
+import {NotificationService} from '../shared/messages/notification.service';
 @Component({
     selector: 'lacc-reservation',
     templateUrl: './reservation.component.html',
@@ -11,7 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ReservationComponent implements OnInit {
 
-    restaurants: Restaurant[] = [];
+    restaurants: Restaurant[] =[];
+    Favorite : Restaurant[] =[];
     filters: any = {};
     selectedFilters: {} = {
         category: '',
@@ -19,14 +22,32 @@ export class ReservationComponent implements OnInit {
         cuisine: '',
         sort:''
     };
-
+      loc : string;
     constructor(private restaurantService: RestaurantsService, private route: ActivatedRoute,
-        private router: Router) {
+        private router: Router, private http: HttpClient, private NotificationService : NotificationService) {
     }
 
     ngOnInit() {
-        this.restaurants = this.restaurantService.getAllRestaurants();
-        this.filters = this.getFilterData();
+       /* this.restaurantService.getAllRestaurants().pipe(
+            map( (data : { [key : string] : Restaurant}) =>{
+                const arr : Restaurant[] = [];
+                for( const key in data){
+                    if(data.hasOwnProperty(key)){
+                        arr.push({...data[key],id : key});
+                    }
+                }
+             return arr;
+
+            })
+        ).subscribe( res =>{
+          console.log(res);
+          for( let i in res[2]){
+         this.restaurants.push(res[2][i]);     
+          }
+        });*/
+        var item : string ='';
+              this.getVal(item);
+              this.filters = this.getFilterData();
     }
 
     getBGcolorForRating(rating: number): string {
@@ -59,15 +80,50 @@ export class ReservationComponent implements OnInit {
     }
 
     clearFilter() {
-        let activeElements: any = document.getElementsByClassName('filter-option');
+       /* let activeElements: any = document.getElementsByClassName('filter-option');
         for (let i: number = 0; i < activeElements.length; i++) {
             activeElements[i].classList.remove('active');
         }
         Object.keys(this.selectedFilters).forEach(k => {
             this.selectedFilters[k] = '';
         });
-        this.restaurants = this.restaurantService.getAllRestaurants();
+        this.restaurantService.getAllRestaurants().pipe(
+            map( (data : { [key : string] : Restaurant}) =>{
+                const arr : Restaurant[] = [];
+                for( const key in data){
+                    if(data.hasOwnProperty(key)){
+                        arr.push({...data[key],id : key});
+                    }
+                }
+             return arr;
+
+            })
+        ).subscribe( res =>{
+          for( let i in res[2]){
+         this.restaurants.push(res[2][i]);     
+          }
+        });*/
+        this.restaurants=[];
+        this.restaurantService.getAllRestaurants().pipe(
+            map( (data : { [key : string] : Restaurant}) =>{
+                const arr : Restaurant[] = [];
+                for( const key in data){
+                    if(data.hasOwnProperty(key)){
+                        arr.push({...data[key],id : key});
+                    }
+                }
+             return arr;
+    
+            })
+        ).subscribe( res =>{
+          for( let i in res[2]){
+                this.restaurants.push(res[2][i]);  
+            }
+        });
     }
+    
+
+    
 
     selectFilter(id: string, $event) {
         let currentElement: any = $event.target || $event.srcElement;
@@ -103,7 +159,23 @@ export class ReservationComponent implements OnInit {
 
     filterRestaurants(type, name) {
         this.selectedFilters[type] = name;
-        this.restaurants = this.restaurantService.getAllRestaurants();
+        this.restaurantService.getAllRestaurants().pipe(
+            map( (data : { [key : string] : Restaurant}) =>{
+                const arr : Restaurant[] = [];
+                for( const key in data){
+                    if(data.hasOwnProperty(key)){
+                        arr.push({...data[key],id : key});
+                    }
+                }
+             return arr;
+
+            })
+        ).subscribe( res =>{
+          console.log(res);
+          for( let i in res[2]){
+         this.restaurants.push(res[2][i]);     
+          }
+        });
         if (this.selectedFilters['category'] !== '') {
             this.restaurants=this.restaurants.filter(x=>x.category === this.selectedFilters['category']);
         }
@@ -117,5 +189,88 @@ export class ReservationComponent implements OnInit {
             this.restaurants = this.restaurants.sort((a,b)=>a[this.selectedFilters['sort'].toLowerCase()]-b[this.selectedFilters['sort'].toLowerCase()]);
         }
     }
+    getVal(item){
+        this.restaurants=[];
+        this.restaurantService.getAllRestaurants().pipe(
+           map( (data : { [key : string] : Restaurant}) =>{
+               const arr : Restaurant[] = [];
+               for( const key in data){
+                   if(data.hasOwnProperty(key)){
+                       arr.push({...data[key],id : key});
+                   }
+               }
+            return arr;
+   
+           })
+       ).subscribe( res =>{
+         for( let i in res[2]){
+             if(item === ''){
+                this.restaurants.push(res[2][i]);
+             }
+         
+              if(res[2][i].usercity.toLowerCase().includes(item.value)){
+                  this.loc = item.value;
+        this.restaurants.push(res[2][i]);  
+        
+   }
+         if(res[2][i].CUSINE_CATEGORY.toLowerCase().includes(item.value)&&res[2][i].usercity.toLowerCase().includes(this.loc)){
+            this.restaurants.push(res[2][i]);  
+        }
+        if(res[2][i].userName.toLowerCase().includes(item.value)&&res[2][i].usercity.toLowerCase().includes(this.loc)){
+            this.restaurants.push(res[2][i]);
+        }
+         }
 
+       });
+       
+    
+    }
+    addtoFavorite(userName){
+        var  flag = 0;
+for(let i in this.Favorite){
+    if(userName===this.Favorite[i]){
+         flag++;
+    }
 }
+if(flag===0){
+    this.Favorite.push(userName);
+    console.log(this.Favorite);
+    this.NotificationService.notify("Added In Favorite");
+}
+else{
+    this.NotificationService.notify("Already In Favorite");
+}
+           
+    }
+    getFavorite(){
+        this.restaurants=[];
+        this.restaurantService.getAllRestaurants().pipe(
+            map( (data : { [key : string] : Restaurant}) =>{
+                const arr : Restaurant[] = [];
+                for( const key in data){
+                    if(data.hasOwnProperty(key)){
+                        arr.push({...data[key],id : key});
+                    }
+                }
+             return arr;
+    
+            })
+        ).subscribe( res =>{
+          for( let i in res[2]){
+              for(let j in this.Favorite){
+       if(res[2][i].userName === this.Favorite[j]){
+                    this.restaurants.push(res[2][i]); 
+                    
+                }
+        
+              }
+           console.log("name");
+        }});}
+
+    }
+
+
+
+
+
+
